@@ -25,7 +25,6 @@ namespace polynomial {
 	public:
 		LinkedList(): begin(nullptr), end(nullptr){}
 		
-
 		Node<T>* get_begin() { return begin; }
 		Node<T>* get_end() { return end; }
 		
@@ -37,11 +36,11 @@ namespace polynomial {
 			Node<T>* new_node = new Node<T>;
 			new_node->data = _data;
 			new_node->degree = _degree;
-			if (end != NULL) {
+			if (begin != NULL) {
 				end->next = new_node;
 				begin->prev = new_node;
 			}
-			else if (end == NULL) {
+			else if (begin == NULL) {
 				begin = new_node;
 			}
 			new_node->next = begin;
@@ -49,17 +48,32 @@ namespace polynomial {
 			end = new_node;
 		}
 		
-		//void push_tail(const LinkedList& _list);
+		void push_tail(const LinkedList& _list) {
+			if (_list.end == NULL) {
+				cout << "The list is empty" << endl;
+			}
+			else if (end = NULL) {
+				begin = _list.begin;
+				end = _list.end;
+			}
+			else {
+				_list.end->next = begin;
+				begin->prev = _list.end;
+				_list.begin->prev = end;
+				//end->next = _list.begin;
+				end = _list.end;
+			}
+		}
 		
 		void push_head(const T& _data, const int _degree) {
 			Node<T>* new_node = new Node<T>;
 			new_node->data = _data;
 			new_node->degree = _degree;
-			if (begin != NULL) {
+			if (end != NULL) {
 				end->next = new_node;
 				begin->prev = new_node;
 			}
-			else if (begin == NULL) {
+			else if (end == NULL) {
 				end = new_node;
 			}
 			new_node->next = begin;
@@ -67,12 +81,41 @@ namespace polynomial {
 			begin = new_node;
 		}
 
-		//void push_head(const LinkedList& _list);
+		void push_head(const LinkedList<T>& _list) {
+			if (_list.begin == NULL) {
+				cout << "The list is empty." << endl;
+			}
+			else if (begin == NULL) {
+				begin = _list.begin;
+				end = _list.end;
+			}
+			else {
+				_list.end->next = begin;
+				begin->prev = _list.end;
+				_list.begin->prev = end;
+				end->next = _list.begin;
+				begin = _list.begin;
+			}
+		}
+
 		//void pop_head();
 		//void pop_tail();
 		//void delete_node(T& _data, const int _degree);
 		//Node operator[](int _index);
 		//void set_node(const T _data, const int _degree, int _index);
+
+		int count_elem(const LinkedList<T>& a) {
+			int count = 0;
+			if (a.begin != NULL) {
+				Node<T>* cur = a.begin;
+				do {
+					count++;
+					cur = cur->next;
+				} while (cur != a.begin);
+				return count;
+			}
+			return count;
+		}
 	};
 
 	template<typename T>
