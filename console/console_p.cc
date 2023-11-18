@@ -6,16 +6,25 @@ using namespace polynomial;
 
 int main() {
 	LinkedList<int> list;
-	list.push_head(3, 4);
-	list.push_tail(5, 6);
-	list.push_head(1, 2);
+	Node<int>* a = new Node(1, 2);
+	Node<int>* b = new Node(3,4);
+	Node<int>* c = new Node(5,6);
+	
+	list.push_head(b);
+	list.push_tail(c);
+	list.push_head(a);
 
-	//LinkedList<int> _list;
-	//_list.push_head(9, 10);
-	//_list.push_tail(11, 12);
-	//_list.push_head(7, 8);
+	LinkedList<int> _list;
+	Node<int>* d = new Node(7,8);
+	Node<int>* e = new Node(9,10);
+	Node<int>* f = new Node(11,12);
+	_list.push_head(e);
+	_list.push_tail(f);
+	_list.push_head(d);
 
-	//list.push_tail(_list);
+	list.push_tail(_list);
+	
 	cout << list;
+
 	return 0;
 }

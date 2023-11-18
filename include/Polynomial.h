@@ -3,8 +3,7 @@
 
 using namespace std;
 
-namespace polynomial {
-	
+namespace polynomial {	
 	template<typename T>
 	struct Node {
 		T data;
@@ -13,88 +12,95 @@ namespace polynomial {
 		Node<T>* prev;
 		
 		Node(): data(0), degree(0), next(nullptr), prev(nullptr){}
+		Node(T _data, int _degree) : data(_data), degree(_degree), next(nullptr), prev(nullptr) {}
 	};
 	
 	template<typename T>
 	class LinkedList {
 	private:
-		Node<T>* begin;
-		Node<T>* end;
-		//int count;
+		Node<T>* head;
+		Node<T>* tail;
 
 	public:
-		LinkedList(): begin(nullptr), end(nullptr){}
+		LinkedList(): head(nullptr), tail(nullptr){}
 		
-		Node<T>* get_begin() { return begin; }
-		Node<T>* get_end() { return end; }
-		
-		//LinkedList(const LinkedList<T>& _list);
-		//LinkedList<T>& operator=(const LinkedList& _list);
-		//~LinkedList();
+		Node<T>* get_head() { return head; }
+		Node<T>* get_tail() { return tail; }
 
-		void push_tail(const T& _data, const int _degree) {
-			Node<T>* new_node = new Node<T>;
-			new_node->data = _data;
-			new_node->degree = _degree;
-			if (begin != NULL) {
-				end->next = new_node;
-				begin->prev = new_node;
+		/*LinkedList(const LinkedList<T>& _list) {
+			head = nullptr;
+			tail = nullptr;
+			head->next = tail;
+			tail->prev = haid;
+		}*/
+		//LinkedList<T>& operator=(const LinkedList& _list);
+
+		/*~LinkedList() {
+			Node<T>* cur = head;
+			do {
+				cur = cur->next;
+				delete cur;
+			} while (cur != head);
+			delete cur;
+		}*/
+
+		void push_tail(Node<T>* t) {
+			if (tail != NULL) {
+				tail->next = t;
+				head->prev = t;
 			}
-			else if (begin == NULL) {
-				begin = new_node;
+			else if (tail == NULL) {
+				head = t;
 			}
-			new_node->next = begin;
-			new_node->prev = end;
-			end = new_node;
+			t->next = head;
+			t->prev = tail;
+			tail = t;
 		}
 		
 		void push_tail(const LinkedList& _list) {
-			if (_list.end == NULL) {
+			if (_list.tail == NULL) {
 				cout << "The list is empty" << endl;
 			}
-			else if (end = NULL) {
-				begin = _list.begin;
-				end = _list.end;
+			else if (tail == NULL) {
+				head = _list.head;
+				tail = _list.tail;
 			}
 			else {
-				_list.end->next = begin;
-				begin->prev = _list.end;
-				_list.begin->prev = end;
-				//end->next = _list.begin;
-				end = _list.end;
+				_list.tail->next = head;
+				head->prev = _list.tail;
+				_list.head->prev = tail;
+				tail->next = _list.head;
+				tail = _list.tail;
 			}
 		}
 		
-		void push_head(const T& _data, const int _degree) {
-			Node<T>* new_node = new Node<T>;
-			new_node->data = _data;
-			new_node->degree = _degree;
-			if (end != NULL) {
-				end->next = new_node;
-				begin->prev = new_node;
+		void push_head(Node<T>* h) {
+			if (head != NULL) {
+				tail->next = h;
+				head->prev = h;
 			}
-			else if (end == NULL) {
-				end = new_node;
+			else if (head == NULL) {
+				tail = h;
 			}
-			new_node->next = begin;
-			new_node->prev = end;
-			begin = new_node;
+			h->next = head;
+			h->prev = tail;
+			head = h;
 		}
 
 		void push_head(const LinkedList<T>& _list) {
-			if (_list.begin == NULL) {
+			if (_list.head == NULL) {
 				cout << "The list is empty." << endl;
 			}
-			else if (begin == NULL) {
-				begin = _list.begin;
-				end = _list.end;
+			else if (head == NULL) {
+				head = _list.head;
+				tail = _list.tail;
 			}
 			else {
-				_list.end->next = begin;
-				begin->prev = _list.end;
-				_list.begin->prev = end;
-				end->next = _list.begin;
-				begin = _list.begin;
+				_list.tail->next = head;
+				head->prev = _list.tail;
+				_list.head->prev = tail;
+				tail->next = _list.head;
+				head = _list.head;
 			}
 		}
 
@@ -104,15 +110,14 @@ namespace polynomial {
 		//Node operator[](int _index);
 		//void set_node(const T _data, const int _degree, int _index);
 
-		int count_elem(const LinkedList<T>& a) {
+		int count_elem(Node<T>* h) {
 			int count = 0;
-			if (a.begin != NULL) {
-				Node<T>* cur = a.begin;
+			if (h != NULL) {
+				Node<T>* cur = h;
 				do {
 					count++;
 					cur = cur->next;
-				} while (cur != a.begin);
-				return count;
+				} while (cur != h);
 			}
 			return count;
 		}
@@ -120,11 +125,11 @@ namespace polynomial {
 
 	template<typename T>
 	ostream& operator<<(ostream& os, LinkedList<T>& a) {
-		Node<T>* cur = a.get_begin();
+		Node<T>* cur = a.get_head();
 		do {
 			cout << cur->data << " " << cur->degree << endl;
 			cur = cur->next;
-		} while (cur != a.get_begin());
+		} while (cur != a.get_head());
 		return os;
 	}
 }
