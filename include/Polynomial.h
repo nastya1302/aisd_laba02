@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 
 using namespace std;
@@ -27,22 +27,34 @@ namespace polynomial {
 		Node<T>* get_head() { return head; }
 		Node<T>* get_tail() { return tail; }
 
-		/*LinkedList(const LinkedList<T>& _list) {
+		LinkedList(const LinkedList<T>& _list) {
 			head = nullptr;
 			tail = nullptr;
-			head->next = tail;
-			tail->prev = haid;
-		}*/
-		//LinkedList<T>& operator=(const LinkedList& _list);
-
-		/*~LinkedList() {
-			Node<T>* cur = head;
+			Node<T>* cur = _list.head;
 			do {
+				Node<T>* node = new Node(cur->data, cur->degree);
+				push_tail(node);
 				cur = cur->next;
+			} while (cur != _list.head);
+		}
+
+		~LinkedList() {
+			while (head != tail){
+				Node<T>* cur = head;
+				head = head->prev;
 				delete cur;
-			} while (cur != head);
-			delete cur;
-		}*/
+			}
+			delete tail;
+		}
+
+		LinkedList<T>& operator=(const LinkedList<T>& _list) {
+			swap(_list);
+			return *this;
+		}
+
+		void swap(LinkedList<T>& _list) {
+			std::swap(head, _list.head);
+		}
 
 		void push_tail(Node<T>* t) {
 			if (tail != NULL) {
@@ -104,9 +116,63 @@ namespace polynomial {
 			}
 		}
 
-		//void pop_head();
-		//void pop_tail();
-		//void delete_node(T& _data, const int _degree);
+		void pop_head() {
+			if (head == NULL) {
+				cout << "The list is empty" << endl;
+			}
+			else {
+				Node<T>* cur = head;
+				head = head->next;
+				head->prev = tail;
+				tail->next = head;
+				delete cur;
+			}
+		}
+
+		void pop_tail() {
+			if (tail == NULL) {
+				cout << "The list is empty" << endl;
+			}
+			else {
+				Node<T>* cur = tail;
+				tail = tail->prev;
+				head->prev = tail;
+				tail->next = head;
+				delete cur;
+			}
+		}
+
+		void delete_node(T _data, const int _degree) {
+			if (head == NULL) {
+				cout << "The list is empty" << endl;
+			}
+			else {
+				Node<T>* cur = head;
+				do {
+					if (_data == cur->data && _degree == cur->degree) {
+						if (cur == head) {
+							cur = cur->next;
+							this->pop_head();
+						}
+						else if (cur == tail) {
+							cur = cur->next;
+							this->pop_tail();
+						}
+						else {
+							Node<T>* ptr = cur;
+							cur = cur->next;
+							cur->prev = ptr->prev;
+							ptr->prev->next = cur;
+							delete ptr;
+						}
+					}
+					else {
+						cur = cur->next;
+					}
+				} while (cur != head);
+			}
+		}
+
 		//Node operator[](int _index);
 		//void set_node(const T _data, const int _degree, int _index);
 

@@ -22,9 +22,15 @@ int main() {
 	_list.push_tail(f);
 	_list.push_head(d);
 
-	list.push_tail(_list);
+	list.delete_node(1, 2);
+	//list.delete_node(5, 6);
+
+	//list.pop_head();
+	//list.pop_tail();
+	//list = _list;
+	//LinkedList<int> _list2(list);
+	//list.push_tail(_list);
 	
 	cout << list;
-
 	return 0;
 }
