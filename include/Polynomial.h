@@ -1,18 +1,29 @@
 ﻿#pragma once
 #include <iostream>
+#include <random>
+#include <stdexcept>
 
 using namespace std;
 
 namespace polynomial {	
+
+	template<typename T>
+	T random_value(T from, T to) {
+		random_device rd;
+		mt19937 gen(rd());
+		uniform_real_distribution<> segment(from, to);
+		return segment(gen);
+	}
+
 	template<typename T>
 	struct Node {
 		T data;
-		int degree;
+		T degree;
 		Node<T>* next;
 		Node<T>* prev;
 		
 		Node(): data(0), degree(0), next(nullptr), prev(nullptr){}
-		Node(T _data, int _degree) : data(_data), degree(_degree), next(nullptr), prev(nullptr) {}
+		Node(T _data, T _degree) : data(_data), degree(_degree), next(nullptr), prev(nullptr) {}
 	};
 	
 	template<typename T>
@@ -38,8 +49,22 @@ namespace polynomial {
 			} while (cur != _list.head);
 		}
 
+		LinkedList(int size, T from_data, T to_data, T from_degree, T to_degree) {
+			if (size < 0) { cout << "error"; }
+			else {
+				head = nullptr;
+				tail = nullptr;
+				for (int i = 0; i < size; i++) {
+					T _data = random_value(from_data, to_data);
+					T _degree = random_value(from_degree, to_degree);
+					Node<T>* node = new Node(_data, _degree);
+					push_tail(node);
+				}
+			}
+		}
+
 		~LinkedList() {
-			while (head != tail){
+			while (head != tail) {
 				Node<T>* cur = head;
 				head = head->prev;
 				delete cur;
@@ -173,29 +198,50 @@ namespace polynomial {
 			}
 		}
 
-		//Node operator[](int _index);
-		//void set_node(const T _data, const int _degree, int _index);
-
-		int count_elem(Node<T>* h) {
-			int count = 0;
-			if (h != NULL) {
-				Node<T>* cur = h;
-				do {
-					count++;
+		Node<T>* operator[](int _index) {
+			if (_index < 0 || _index >=  count_elem(head)) 
+				throw std::out_of_range("Incorrect index.");
+			else {
+				Node<T>* cur = head;
+				for (int i = 0; i < _index; i++)
 					cur = cur->next;
-				} while (cur != h);
+				return cur;
 			}
-			return count;
 		}
+
+		Node<T>* set_node(const T _data, const T _degree, int _index) {
+			if (_index < 0 || _index >= count_elem(head))
+				throw std::out_of_range("Incorrect index.");
+			else {
+				Node<T>* cur = head;
+				for (int i = 0; i < _index; i++)
+					cur = cur->next;
+				cur->data = _data;
+				cur->degree = _degree;
+				return cur;
+			}
+		}
+
 	};
 
 	template<typename T>
-	ostream& operator<<(ostream& os, LinkedList<T>& a) {
-		Node<T>* cur = a.get_head();
+	ostream& operator<<(ostream& os, LinkedList<T>& _list) {
+		Node<T>* cur = _list.get_head();
 		do {
-			cout << cur->data << " " << cur->degree << endl;
+			cout << cur->data << "^" << cur->degree << endl;
 			cur = cur->next;
-		} while (cur != a.get_head());
+		} while (cur != _list.get_head());
 		return os;
+	}
+
+	template<typename T>
+	int count_elem(Node<T>* h) {
+		int count = 0;
+		Node<T>* cur = h;
+		do {
+			count++;
+			cur = cur->next;
+		} while (cur != h);
+		return count;
 	}
 }

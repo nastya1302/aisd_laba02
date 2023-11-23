@@ -22,9 +22,15 @@ int main() {
 	_list.push_tail(f);
 	_list.push_head(d);
 
-	list.delete_node(1, 2);
-	//list.delete_node(5, 6);
+	//int size = count_elem(list.get_head());
+	//cout << size << endl;
 
+	//cout << list[0]->data << list[0]->degree;
+
+	list.set_node(2, 1, 0);
+
+	//list.delete_node(1, 2);
+	//list.delete_node(5, 6);
 	//list.pop_head();
 	//list.pop_tail();
 	//list = _list;
@@ -32,5 +38,10 @@ int main() {
 	//list.push_tail(_list);
 	
 	cout << list;
+
+	//LinkedList<int> random_list(5, 1, 11, 1, 3);
+	//LinkedList<double> random_list(5, -11.1, 11.5, -1.99, 4.01);
+
+	//cout << random_list;
 	return 0;
 }
