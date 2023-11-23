@@ -44,9 +44,9 @@ int main() {
 	
 	//cout << list;
 
-	LinkedList<int> random_list(5, 1, 11, 1, 3);
+	//LinkedList<int> random_list(5, 1, 11, 1, 3);
 	//LinkedList<double> random_list(5, -11.1, 11.5, -1.99, 4.01);
 
-	cout << random_list;
+	//cout << random_list;
 	return 0;
 }

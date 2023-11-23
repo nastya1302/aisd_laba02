@@ -50,7 +50,8 @@ namespace polynomial {
 		}
 
 		LinkedList(int size, T from_data, T to_data, T from_degree, T to_degree) {
-			if (size < 0) { cout << "error"; }
+			if (size < 0)
+				throw std::invalid_argument("LinkedList::Incorrect size.");
 			else {
 				head = nullptr;
 				tail = nullptr;
@@ -98,9 +99,8 @@ namespace polynomial {
 		}
 		
 		void push_tail(const LinkedList& _list) {
-			if (_list.tail == NULL) {
-				cout << "The list is empty" << endl;
-			}
+			if (_list.tail == NULL) 
+				throw std::invalid_argument("LinkedList::The list is empty");
 			else if (tail == NULL) {
 				head = _list.head;
 				tail = _list.tail;
@@ -128,9 +128,8 @@ namespace polynomial {
 		}
 
 		void push_head(const LinkedList<T>& _list) {
-			if (_list.head == NULL) {
-				cout << "The list is empty." << endl;
-			}
+			if (_list.head == NULL)
+				throw std::invalid_argument("LinkedList::The list is empty");
 			else if (head == NULL) {
 				head = _list.head;
 				tail = _list.tail;
@@ -145,9 +144,8 @@ namespace polynomial {
 		}
 
 		void pop_head() {
-			if (head == NULL) {
-				cout << "The list is empty" << endl;
-			}
+			if (head == NULL) 
+				throw std::invalid_argument("LinkedList::The list is empty");
 			else {
 				Node<T>* cur = head;
 				head = head->next;
@@ -158,9 +156,8 @@ namespace polynomial {
 		}
 
 		void pop_tail() {
-			if (tail == NULL) {
-				cout << "The list is empty" << endl;
-			}
+			if (tail == NULL) 
+				throw std::invalid_argument("LinkedList::The list is empty");
 			else {
 				Node<T>* cur = tail;
 				tail = tail->prev;
@@ -171,9 +168,8 @@ namespace polynomial {
 		}
 
 		void delete_node(T _data, const int _degree) {
-			if (head == NULL) {
-				cout << "The list is empty" << endl;
-			}
+			if (head == NULL) 
+				throw std::invalid_argument("LinkedList::The list is empty");
 			else {
 				Node<T>* cur = head;
 				do {
@@ -201,7 +197,7 @@ namespace polynomial {
 			}
 		}
 
-		Node<T>* operator[](int _index) {
+		Node<T>* operator[](int _index) const {
 			if (_index < 0 || _index >=  count_elem(head)) 
 				throw std::out_of_range("LinkedList::Incorrect index.");
 			else {
@@ -267,10 +263,8 @@ namespace polynomial {
 
 	template<typename T>
 	double solution_polynomial(LinkedList<T>& _list, T x) {
-		if(_list.get_head() == NULL) {
-			cout << "The list is empty" << endl;
-			return T(0);
-		}
+		if(_list.get_head() == NULL)
+			throw std::invalid_argument("LinkedList::The list is empty");
 		else {
 			Node<T>* cur = _list.get_head();
 			T value = T(0);
