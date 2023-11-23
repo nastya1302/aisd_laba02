@@ -55,7 +55,10 @@ namespace polynomial {
 				head = nullptr;
 				tail = nullptr;
 				for (int i = 0; i < size; i++) {
-					T _data = random_value(from_data, to_data);
+					T _data = T(0);
+					do {
+						_data = random_value(from_data, to_data);
+					} while (_data == T(0));
 					T _degree = random_value(from_degree, to_degree);
 					Node<T>* node = new Node(_data, _degree);
 					push_tail(node);
@@ -200,7 +203,7 @@ namespace polynomial {
 
 		Node<T>* operator[](int _index) {
 			if (_index < 0 || _index >=  count_elem(head)) 
-				throw std::out_of_range("Incorrect index.");
+				throw std::out_of_range("LinkedList::Incorrect index.");
 			else {
 				Node<T>* cur = head;
 				for (int i = 0; i < _index; i++)
@@ -211,7 +214,7 @@ namespace polynomial {
 
 		Node<T>* set_node(const T _data, const T _degree, int _index) {
 			if (_index < 0 || _index >= count_elem(head))
-				throw std::out_of_range("Incorrect index.");
+				throw std::out_of_range("LinkedList::Incorrect index.");
 			else {
 				Node<T>* cur = head;
 				for (int i = 0; i < _index; i++)
@@ -228,11 +231,22 @@ namespace polynomial {
 	ostream& operator<<(ostream& os, LinkedList<T>& _list) {
 		Node<T>* cur = _list.get_head();
 		do {
-			cout << cur->data << "^" << cur->degree << endl;
+			os << cur->data << "^" << cur->degree << endl;
 			cur = cur->next;
 		} while (cur != _list.get_head());
 		return os;
 	}
+
+	/*template<typename T>
+	ostream& operator<<(ostream& os, LinkedList<T>& _list) {
+		Node<T>* cur = _list.get_head();
+		do {
+			os << cur->data << "x^" << cur->degree << " + ";
+			cur = cur->next;
+		} while (cur != _list.get_tail());
+		os << _list.get_tail()->data << "x^" << _list.get_tail()->degree << " = ";
+		return os;
+	}*/
 
 	template<typename T>
 	int count_elem(Node<T>* h) {
@@ -243,5 +257,28 @@ namespace polynomial {
 			cur = cur->next;
 		} while (cur != h);
 		return count;
+	}
+
+	template<typename T>
+	ostream& operator<<(ostream& os, Node<T>* _node) {
+		os << _node->data << "^" << _node->degree << endl;
+		return os;
+	}
+
+	template<typename T>
+	double solution_polynomial(LinkedList<T>& _list, T x) {
+		if(_list.get_head() == NULL) {
+			cout << "The list is empty" << endl;
+			return T(0);
+		}
+		else {
+			Node<T>* cur = _list.get_head();
+			T value = T(0);
+			do {
+				value = value + cur->data * pow(x, cur->degree);
+				cur = cur->next;
+			} while (cur != _list.get_head());
+			return value;
+		}
 	}
 }

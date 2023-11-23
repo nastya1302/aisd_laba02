@@ -14,6 +14,10 @@ int main() {
 	list.push_tail(c);
 	list.push_head(a);
 
+	//double value = solution_polynomial(list, 2);
+	//cout << list;
+	//cout << value;
+
 	LinkedList<int> _list;
 	Node<int>* d = new Node(7,8);
 	Node<int>* e = new Node(9,10);
@@ -25,9 +29,10 @@ int main() {
 	//int size = count_elem(list.get_head());
 	//cout << size << endl;
 
-	//cout << list[0]->data << list[0]->degree;
+	//cout << list[0];
 
-	list.set_node(2, 1, 0);
+	//Node<int>* s = list.set_node(2, 1, 0);
+	//cout << s;
 
 	//list.delete_node(1, 2);
 	//list.delete_node(5, 6);
@@ -37,11 +42,11 @@ int main() {
 	//LinkedList<int> _list2(list);
 	//list.push_tail(_list);
 	
-	cout << list;
+	//cout << list;
 
-	//LinkedList<int> random_list(5, 1, 11, 1, 3);
+	LinkedList<int> random_list(5, 1, 11, 1, 3);
 	//LinkedList<double> random_list(5, -11.1, 11.5, -1.99, 4.01);
 
-	//cout << random_list;
+	cout << random_list;
 	return 0;
 }
